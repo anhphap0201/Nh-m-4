@@ -1,0 +1,82 @@
+import pygame
+import time
+import random
+
+# Khởi tạo màn hình và cửa sổ game
+pygame.init()
+width, height = 540, 600
+win = pygame.display.set_mode((width, height))
+pygame.display.set_caption("Sudoku")
+
+# Màu sắc
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GRAY = (200, 200, 200)
+BLUE = (0, 0, 255)
+
+# Font cho số
+font = pygame.font.SysFont("comicsans", 40)
+
+# Hàm vẽ lưới Sudoku
+def draw_grid():
+    gap = width // 9
+    for i in range(10):
+        if i % 3 == 0:
+            thick = 4
+        else:
+            thick = 1
+        pygame.draw.line(win, BLACK, (0, i * gap), (width, i * gap), thick)
+        pygame.draw.line(win, BLACK, (i * gap, 0), (i * gap, width), thick)
+
+# Hàm vẽ số Sudoku
+def draw_numbers(grid):
+    for i in range(9):
+        for j in range(9):
+            if grid[i][j] != 0:
+                text = font.render(str(grid[i][j]), 1, BLACK)
+                win.blit(text, (j * (width // 9) + 20, i * (width // 9) + 10))
+
+# Hàm tạo Sudoku ngẫu nhiên
+def create_grid():
+    grid = [[0 for _ in range(9)] for _ in range(9)]
+    for i in range(9):
+        for j in range(9):
+            if random.randint(1, 10) > 3:  # Tạo khoảng 70% ô trống
+                num = random.randint(1, 9)
+                while not valid(grid, i, j, num):
+                    num = random.randint(1, 9)
+                grid[i][j] = num
+    return grid
+
+# Hàm kiểm tra xem số được đặt vào có hợp lệ không
+def valid(grid, row, col, num):
+    for i in range(9):
+        if grid[row][i] == num or grid[i][col] == num:
+            return False
+    start_row, start_col = 3 * (row // 3), 3 * (col // 3)
+    for i in range(3):
+        for j in range(3):
+            if grid[i + start_row][j + start_col] == num:
+                return False
+    return True
+
+# Hàm chính
+def main():
+    run = True
+    grid = create_grid()
+
+    while run:
+        win.fill(WHITE)
+        draw_grid()
+        draw_numbers(grid)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+        pygame.display.update()
+
+    pygame.quit()
+
+if __name__ == "__main__":
+    main()

@@ -1,2 +1,7 @@
 # Nh-m-4
-Làm quen với Git
+Nhóm 4:
+Đàm Anh Pháp
+Nguyễn Hữu Thành Đạt
+Phạm Lệ Quyên
+Nguyễn Trọng Tấn
+

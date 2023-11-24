@@ -1,17 +1,24 @@
-import random
+def binary_search(arr, target):
+    low = 0
+    high = len(arr) - 1
 
-def is_sorted(arr):
-    for i in range(1, len(arr)):
-        if arr[i] < arr[i-1]:
-            return False
-    return True
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
 
-def bogosort(arr):
-    while not is_sorted(arr):
-        random.shuffle(arr)
-    return arr
+    return -1
 
 # Example usage
-arr = [4, 2, 7, 1, 5]
-sorted_arr = bogosort(arr)
-print(sorted_arr)
+arr = [1, 2, 4, 5, 7]
+target = 4
+index = binary_search(arr, target)
+if index != -1:
+    print(f"Element {target} found at index {index}")
+else:
+    print(f"Element {target} not found")
+
